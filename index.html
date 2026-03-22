@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>功能块功能介绍</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false });
+    </script>
     <style>
         * {
             margin: 0;
@@ -17,6 +22,10 @@
             color: #333;
             line-height: 1.6;
             padding: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .container {
@@ -192,12 +201,154 @@
         }
 
         .modal-body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, sans-serif;
+            font-size: 0.95em;
+            line-height: 1.8;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        .modal-body h1 {
+            font-size: 2em;
+            color: #667eea;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .modal-body h2 {
+            font-size: 1.6em;
+            color: #764ba2;
+            margin-top: 1.3em;
+            margin-bottom: 0.6em;
+            padding-bottom: 0.2em;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-body h3 {
+            font-size: 1.3em;
+            color: #555;
+            margin-top: 1.1em;
+            margin-bottom: 0.5em;
+        }
+
+        .modal-body h4 {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 1em;
+            margin-bottom: 0.4em;
+        }
+
+        .modal-body p {
+            margin-bottom: 1em;
+        }
+
+        .modal-body ul, .modal-body ol {
+            margin-left: 2em;
+            margin-bottom: 1em;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.5em;
+        }
+
+        .modal-body code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 0.9em;
-            line-height: 1.6;
-            color: #333;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            color: #e83e8c;
+        }
+
+        .modal-body pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5em;
+        }
+
+        .modal-body pre code {
+            background: none;
+            padding: 0;
+            color: #abb2bf;
+            font-size: 0.9em;
+        }
+
+        .modal-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            font-size: 0.9em;
+        }
+
+        .modal-body table th, .modal-body table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .modal-body table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .modal-body table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .modal-body table tr:hover {
+            background: #f0f0f0;
+        }
+
+        .modal-body blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+            margin: 1.5em 0;
+            color: #666;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .modal-body strong {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .modal-body em {
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        .modal-body a {
+            color: #667eea;
+            text-decoration: none;
+            border-bottom: 1px dotted #667eea;
+        }
+
+        .modal-body a:hover {
+            color: #764ba2;
+            border-bottom-style: solid;
+        }
+
+        .modal-body hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            margin: 2em 0;
+        }
+
+        .modal-body .mermaid {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 1.5em 0;
+            text-align: center;
         }
 
         @media (max-width: 768px) {
@@ -221,334 +372,334 @@
         <div class="category">
             <h2>数学运算类</h2>
             <div class="grid">
-                <a href="C_ADD4_分析报告.md" class="card" onclick="openModal('C_ADD4_分析报告.md', 'C_ADD4')">
+                <div class="card" onclick="openModal('C_ADD4_分析报告.md', 'C_ADD4')">
                     <h3>C_ADD4</h3>
                     <p>加法器（4个加数，实数类型）</p>
                     <span class="badge">数学运算</span>
-                </a>
-                <a href="C_ADSD_分析报告.md" class="card" onclick="openModal('C_ADSD_分析报告.md', 'C_ADSD')">
+                </div>
+                <div class="card" onclick="openModal('C_ADSD_分析报告.md', 'C_ADSD')">
                     <h3>C_ADSD</h3>
                     <p>加法器和减法器（DINT类型）</p>
                     <span class="badge">数学运算</span>
-                </a>
-                <a href="C_SUB4_分析报告.md" class="card" onclick="openModal('C_SUB4_分析报告.md', 'C_SUB4')">
+                </div>
+                <div class="card" onclick="openModal('C_SUB4_分析报告.md', 'C_SUB4')">
                     <h3>C_SUB4</h3>
                     <p>减法器（4个减数，实数类型）</p>
                     <span class="badge">数学运算</span>
-                </a>
-                <a href="C_MUL4_分析报告.md" class="card" onclick="openModal('C_MUL4_分析报告.md', 'C_MUL4')">
+                </div>
+                <div class="card" onclick="openModal('C_MUL4_分析报告.md', 'C_MUL4')">
                     <h3>C_MUL4</h3>
                     <p>乘法器（4个乘数，实数类型）</p>
                     <span class="badge">数学运算</span>
-                </a>
-                <a href="C_MULD_分析报告.md" class="card" onclick="openModal('C_MULD_分析报告.md', 'C_MULD')">
+                </div>
+                <div class="card" onclick="openModal('C_MULD_分析报告.md', 'C_MULD')">
                     <h3>C_MULD</h3>
                     <p>乘法器和除法器（实数类型）</p>
                     <span class="badge">数学运算</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>控制逻辑类</h2>
             <div class="grid">
-                <a href="C_NSWR_分析报告.md" class="card" onclick="openModal('C_NSWR_分析报告.md', 'C_NSWR')">
+                <div class="card" onclick="openModal('C_NSWR_分析报告.md', 'C_NSWR')">
                     <h3>C_NSWR</h3>
                     <p>数值切换开关（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSWI_分析报告.md" class="card" onclick="openModal('C_NSWI_分析报告.md', 'C_NSWI')">
+                </div>
+                <div class="card" onclick="openModal('C_NSWI_分析报告.md', 'C_NSWI')">
                     <h3>C_NSWI</h3>
                     <p>数值切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSWD_分析报告.md" class="card" onclick="openModal('C_NSWD_分析报告.md', 'C_NSWD')">
+                </div>
+                <div class="card" onclick="openModal('C_NSWD_分析报告.md', 'C_NSWD')">
                     <h3>C_NSWD</h3>
                     <p>数值切换开关（DINT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW3R_分析报告.md" class="card" onclick="openModal('C_NSW3R_分析报告.md', 'C_NSW3R')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW3R_分析报告.md', 'C_NSW3R')">
                     <h3>C_NSW3R</h3>
                     <p>3分支切换开关（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW3I_分析报告.md" class="card" onclick="openModal('C_NSW3I_分析报告.md', 'C_NSW3I')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW3I_分析报告.md', 'C_NSW3I')">
                     <h3>C_NSW3I</h3>
                     <p>3分支切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW3D_分析报告.md" class="card" onclick="openModal('C_NSW3D_分析报告.md', 'C_NSW3D')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW3D_分析报告.md', 'C_NSW3D')">
                     <h3>C_NSW3D</h3>
                     <p>3分支切换开关（DINT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW4I_分析报告.md" class="card" onclick="openModal('C_NSW4I_分析报告.md', 'C_NSW4I')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW4I_分析报告.md', 'C_NSW4I')">
                     <h3>C_NSW4I</h3>
                     <p>4分支切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW6I_分析报告.md" class="card" onclick="openModal('C_NSW6I_分析报告.md', 'C_NSW6I')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW6I_分析报告.md', 'C_NSW6I')">
                     <h3>C_NSW6I</h3>
                     <p>6分支切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_NSW8I_分析报告.md" class="card" onclick="openModal('C_NSW8I_分析报告.md', 'C_NSW8I')">
+                </div>
+                <div class="card" onclick="openModal('C_NSW8I_分析报告.md', 'C_NSW8I')">
                     <h3>C_NSW8I</h3>
                     <p>8分支切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_LIMR_分析报告.md" class="card" onclick="openModal('C_LIMR_分析报告.md', 'C_LIMR')">
+                </div>
+                <div class="card" onclick="openModal('C_LIMR_分析报告.md', 'C_LIMR')">
                     <h3>C_LIMR</h3>
                     <p>限幅器（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_LIMI_分析报告.md" class="card" onclick="openModal('C_LIMI_分析报告.md', 'C_LIMI')">
+                </div>
+                <div class="card" onclick="openModal('C_LIMI_分析报告.md', 'C_LIMI')">
                     <h3>C_LIMI</h3>
                     <p>限幅器（INT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_LIMD_分析报告.md" class="card" onclick="openModal('C_LIMD_分析报告.md', 'C_LIMD')">
+                </div>
+                <div class="card" onclick="openModal('C_LIMD_分析报告.md', 'C_LIMD')">
                     <h3>C_LIMD</h3>
                     <p>限幅器（DINT类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_DB_分析报告.md" class="card" onclick="openModal('C_DB_分析报告.md', 'C_DB')">
+                </div>
+                <div class="card" onclick="openModal('C_DB_分析报告.md', 'C_DB')">
                     <h3>C_DB</h3>
                     <p>死区（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_DPD_分析报告.md" class="card" onclick="openModal('C_DPD_分析报告.md', 'C_DPD')">
+                </div>
+                <div class="card" onclick="openModal('C_DPD_分析报告.md', 'C_DPD')">
                     <h3>C_DPD</h3>
                     <p>死区（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_DLM_分析报告.md" class="card" onclick="openModal('C_DLM_分析报告.md', 'C_DLM')">
+                </div>
+                <div class="card" onclick="openModal('C_DLM_分析报告.md', 'C_DLM')">
                     <h3>C_DLM</h3>
                     <p>动态限幅器</p>
                     <span class="badge">控制逻辑</span>
-                </a>
-                <a href="C_INV_分析报告.md" class="card" onclick="openModal('C_INV_分析报告.md', 'C_INV')">
+                </div>
+                <div class="card" onclick="openModal('C_INV_分析报告.md', 'C_INV')">
                     <h3>C_INV</h3>
                     <p>反相器（实数类型）</p>
                     <span class="badge">控制逻辑</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>定时器类</h2>
             <div class="grid">
-                <a href="C_ODT_分析报告.md" class="card" onclick="openModal('C_ODT_分析报告.md', 'C_ODT')">
+                <div class="card" onclick="openModal('C_ODT_分析报告.md', 'C_ODT')">
                     <h3>C_ODT</h3>
                     <p>开关ON延时定时器（BOOL类型）</p>
                     <span class="badge">定时器</span>
-                </a>
-                <a href="C_OFDT_分析报告.md" class="card" onclick="openModal('C_OFDT_分析报告.md', 'C_OFDT')">
+                </div>
+                <div class="card" onclick="openModal('C_OFDT_分析报告.md', 'C_OFDT')">
                     <h3>C_OFDT</h3>
                     <p>开关OFF延时定时器（BOOL类型）</p>
                     <span class="badge">定时器</span>
-                </a>
-                <a href="C_OT01_分析报告.md" class="card" onclick="openModal('C_OT01_分析报告.md', 'C_OT01')">
+                </div>
+                <div class="card" onclick="openModal('C_OT01_分析报告.md', 'C_OT01')">
                     <h3>C_OT01</h3>
                     <p>单次定时器1</p>
                     <span class="badge">定时器</span>
-                </a>
-                <a href="C_OT02_分析报告.md" class="card" onclick="openModal('C_OT02_分析报告.md', 'C_OT02')">
+                </div>
+                <div class="card" onclick="openModal('C_OT02_分析报告.md', 'C_OT02')">
                     <h3>C_OT02</h3>
                     <p>单次定时器2</p>
                     <span class="badge">定时器</span>
-                </a>
-                <a href="C_OT51_分析报告.md" class="card" onclick="openModal('C_OT51_分析报告.md', 'C_OT51')">
+                </div>
+                <div class="card" onclick="openModal('C_OT51_分析报告.md', 'C_OT51')">
                     <h3>C_OT51</h3>
                     <p>单次定时器51</p>
                     <span class="badge">定时器</span>
-                </a>
-                <a href="C_OT71_分析报告.md" class="card" onclick="openModal('C_OT71_分析报告.md', 'C_OT71')">
+                </div>
+                <div class="card" onclick="openModal('C_OT71_分析报告.md', 'C_OT71')">
                     <h3>C_OT71</h3>
                     <p>单次定时器71</p>
                     <span class="badge">定时器</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>检测器类</h2>
             <div class="grid">
-                <a href="C_DET_分析报告.md" class="card" onclick="openModal('C_DET_分析报告.md', 'C_DET')">
+                <div class="card" onclick="openModal('C_DET_分析报告.md', 'C_DET')">
                     <h3>C_DET</h3>
                     <p>检测器（接通延时和断开延时）</p>
                     <span class="badge">检测器</span>
-                </a>
-                <a href="C_HMD1_分析报告.md" class="card" onclick="openModal('C_HMD1_分析报告.md', 'C_HMD1')">
+                </div>
+                <div class="card" onclick="openModal('C_HMD1_分析报告.md', 'C_HMD1')">
                     <h3>C_HMD1</h3>
                     <p>热/冷金属检测器（双检测器）</p>
                     <span class="badge">检测器</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>HMI接口类</h2>
             <div class="grid">
-                <a href="C_HMI1_分析报告.md" class="card" onclick="openModal('C_HMI1_分析报告.md', 'C_HMI1')">
+                <div class="card" onclick="openModal('C_HMI1_分析报告.md', 'C_HMI1')">
                     <h3>C_HMI1</h3>
                     <p>HMI接口1（单命令）</p>
                     <span class="badge">HMI接口</span>
-                </a>
-                <a href="C_HMI2_分析报告.md" class="card" onclick="openModal('C_HMI2_分析报告.md', 'C_HMI2')">
+                </div>
+                <div class="card" onclick="openModal('C_HMI2_分析报告.md', 'C_HMI2')">
                     <h3>C_HMI2</h3>
                     <p>HMI接口2（双命令）</p>
                     <span class="badge">HMI接口</span>
-                </a>
-                <a href="C_HMI3_分析报告.md" class="card" onclick="openModal('C_HMI3_分析报告.md', 'C_HMI3')">
+                </div>
+                <div class="card" onclick="openModal('C_HMI3_分析报告.md', 'C_HMI3')">
                     <h3>C_HMI3</h3>
                     <p>HMI接口3（三命令）</p>
                     <span class="badge">HMI接口</span>
-                </a>
-                <a href="C_HMI4_分析报告.md" class="card" onclick="openModal('C_HMI4_分析报告.md', 'C_HMI4')">
+                </div>
+                <div class="card" onclick="openModal('C_HMI4_分析报告.md', 'C_HMI4')">
                     <h3>C_HMI4</h3>
                     <p>HMI接口4（四命令）</p>
                     <span class="badge">HMI接口</span>
-                </a>
-                <a href="C_HMI_R_分析报告.md" class="card" onclick="openModal('C_HMI_R_分析报告.md', 'C_HMI_R')">
+                </div>
+                <div class="card" onclick="openModal('C_HMI_R_分析报告.md', 'C_HMI_R')">
                     <h3>C_HMI_R</h3>
                     <p>HMI接口实数变量（限幅、执行、实际值反馈）</p>
                     <span class="badge">HMI接口</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>信号处理类</h2>
             <div class="grid">
-                <a href="C_FLT1_分析报告.md" class="card" onclick="openModal('C_FLT1_分析报告.md', 'C_FLT1')">
+                <div class="card" onclick="openModal('C_FLT1_分析报告.md', 'C_FLT1')">
                     <h3>C_FLT1</h3>
                     <p>滤波器1（一阶低通滤波器）</p>
                     <span class="badge">信号处理</span>
-                </a>
-                <a href="C_LDLG_分析报告.md" class="card" onclick="openModal('C_LDLG_分析报告.md', 'C_LDLG')">
+                </div>
+                <div class="card" onclick="openModal('C_LDLG_分析报告.md', 'C_LDLG')">
                     <h3>C_LDLG</h3>
                     <p>超前滞后</p>
                     <span class="badge">信号处理</span>
-                </a>
-                <a href="C_IPLN40_分析报告.md" class="card" onclick="openModal('C_IPLN40_分析报告.md', 'C_IPLN40')">
+                </div>
+                <div class="card" onclick="openModal('C_IPLN40_分析报告.md', 'C_IPLN40')">
                     <h3>C_IPLN40</h3>
                     <p>插值器40（40点插值）</p>
                     <span class="badge">信号处理</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>位置控制类</h2>
             <div class="grid">
-                <a href="C_PA1G_分析报告.md" class="card" onclick="openModal('C_PA1G_分析报告.md', 'C_PA1G')">
+                <div class="card" onclick="openModal('C_PA1G_分析报告.md', 'C_PA1G')">
                     <h3>C_PA1G</h3>
                     <p>位置检测和归零（绝对值/半绝对值编码器）</p>
                     <span class="badge">位置控制</span>
-                </a>
-                <a href="C_PDSI_分析报告.md" class="card" onclick="openModal('C_PDSI_分析报告.md', 'C_PDSI')">
+                </div>
+                <div class="card" onclick="openModal('C_PDSI_分析报告.md', 'C_PDSI')">
                     <h3>C_PDSI</h3>
                     <p>位置检测和归零（磁致伸缩位置传感器）</p>
                     <span class="badge">位置控制</span>
-                </a>
-                <a href="C_CP01_分析报告.md" class="card" onclick="openModal('C_CP01_分析报告.md', 'C_CP01')">
+                </div>
+                <div class="card" onclick="openModal('C_CP01_分析报告.md', 'C_CP01')">
                     <h3>C_CP01</h3>
                     <p>速度参考复合（2部分）</p>
                     <span class="badge">位置控制</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>其他功能类</h2>
             <div class="grid">
-                <a href="C_9DAD_分析报告.md" class="card" onclick="openModal('C_9DAD_分析报告.md', 'C_9DAD')">
+                <div class="card" onclick="openModal('C_9DAD_分析报告.md', 'C_9DAD')">
                     <h3>C_9DAD</h3>
                     <p>距离累加器（通过添加偏差累加距离）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_AVGR_分析报告.md" class="card" onclick="openModal('C_AVGR_分析报告.md', 'C_AVGR')">
+                </div>
+                <div class="card" onclick="openModal('C_AVGR_分析报告.md', 'C_AVGR')">
                     <h3>C_AVGR</h3>
                     <p>平均值生成器（实数类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_MAX_分析报告.md" class="card" onclick="openModal('C_MAX_分析报告.md', 'C_MAX')">
+                </div>
+                <div class="card" onclick="openModal('C_MAX_分析报告.md', 'C_MAX')">
                     <h3>C_MAX</h3>
                     <p>最大值（3输入，实数类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_MIN_分析报告.md" class="card" onclick="openModal('C_MIN_分析报告.md', 'C_MIN')">
+                </div>
+                <div class="card" onclick="openModal('C_MIN_分析报告.md', 'C_MIN')">
                     <h3>C_MIN</h3>
                     <p>最小值（3输入，实数类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_NCG_分析报告.md" class="card" onclick="openModal('C_NCG_分析报告.md', 'C_NCG')">
+                </div>
+                <div class="card" onclick="openModal('C_NCG_分析报告.md', 'C_NCG')">
                     <h3>C_NCG</h3>
                     <p>自然常数生成器（实数类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_SCAL2_分析报告.md" class="card" onclick="openModal('C_SCAL2_分析报告.md', 'C_SCAL2')">
+                </div>
+                <div class="card" onclick="openModal('C_SCAL2_分析报告.md', 'C_SCAL2')">
                     <h3>C_SCAL2</h3>
                     <p>标度函数（断开错误检测和标度转换）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_SIM_分析报告.md" class="card" onclick="openModal('C_SIM_分析报告.md', 'C_SIM')">
+                </div>
+                <div class="card" onclick="openModal('C_SIM_分析报告.md', 'C_SIM')">
                     <h3>C_SIM</h3>
                     <p>仿真（两个输入值切换）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_INI_RANGE_分析报告.md" class="card" onclick="openModal('C_INI_RANGE_分析报告.md', 'C_INI_RANGE')">
+                </div>
+                <div class="card" onclick="openModal('C_INI_RANGE_分析报告.md', 'C_INI_RANGE')">
                     <h3>C_INI_RANGE</h3>
                     <p>值在范围内（INT类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_INR_RANGE_分析报告.md" class="card" onclick="openModal('C_INR_RANGE_分析报告.md', 'C_INR_RANGE')">
+                </div>
+                <div class="card" onclick="openModal('C_INR_RANGE_分析报告.md', 'C_INR_RANGE')">
                     <h3>C_INR_RANGE</h3>
                     <p>值在范围内（REAL类型）</p>
                     <span class="badge">其他功能</span>
-                </a>
-                <a href="C_OP_SW1_分析报告.md" class="card" onclick="openModal('C_OP_SW1_分析报告.md', 'C_OP_SW1')">
+                </div>
+                <div class="card" onclick="openModal('C_OP_SW1_分析报告.md', 'C_OP_SW1')">
                     <h3>C_OP_SW1</h3>
                     <p>操作员开关1</p>
                     <span class="badge">其他功能</span>
-                </a>
+                </div>
             </div>
         </div>
 
         <div class="category">
             <h2>手动控制类</h2>
             <div class="grid">
-                <a href="C_APC_分析报告.md" class="card" onclick="openModal('C_APC_分析报告.md', 'C_APC')">
+                <div class="card" onclick="openModal('C_APC_分析报告.md', 'C_APC')">
                     <h3>C_APC</h3>
                     <p>APC（自动位置控制）</p>
                     <span class="badge">手动控制</span>
-                </a>
-                <a href="C_APCM_分析报告.md" class="card" onclick="openModal('C_APCM_分析报告.md', 'C_APCM')">
+                </div>
+                <div class="card" onclick="openModal('C_APCM_分析报告.md', 'C_APCM')">
                     <h3>C_APCM</h3>
                     <p>APCM（手动位置控制）</p>
                     <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN01_分析报告.md" class="card" onclick="openModal('C_MN01_分析报告.md', 'C_MN01')">
+                </div>
+                <div class="card" onclick="openModal('C_MN01_分析报告.md', 'C_MN01')">
                     <h3>C_MN01</h3>
                     <p>手动01</p>
                     <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN81_分析报告.md" class="card" onclick="openModal('C_MN81_分析报告.md', 'C_MN81')">
+                </div>
+                <div class="card" onclick="openModal('C_MN81_分析报告.md', 'C_MN81')">
                     <h3>C_MN81</h3>
                     <p>手动81</p>
                     <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN83_分析报告.md" class="card" onclick="openModal('C_MN83_分析报告.md', 'C_MN83')">
+                </div>
+                <div class="card" onclick="openModal('C_MN83_分析报告.md', 'C_MN83')">
                     <h3>C_MN83</h3>
                     <p>手动83</p>
                     <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN92_分析报告.md" class="card" onclick="openModal('C_MN92_分析报告.md', 'C_MN92')">
+                </div>
+                <div class="card" onclick="openModal('C_MN92_分析报告.md', 'C_MN92')">
                     <h3>C_MN92</h3>
                     <p>手动92</p>
                     <span class="badge">手动控制</span>
-                </a>
+                </div>
             </div>
         </div>
 
@@ -602,7 +753,10 @@
             fetch(filename)
                 .then(response => response.text())
                 .then(content => {
-                    modalBody.innerHTML = '<pre>' + content + '</pre>';
+                    const htmlContent = marked.parse(content);
+                    modalBody.innerHTML = htmlContent;
+                    
+                    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
                 })
                 .catch(error => {
                     modalBody.innerHTML = '<p style="color: #f44336;">加载失败: ' + error.message + '</p>';
@@ -613,6 +767,68 @@
             const modal = document.getElementById('modal');
             modal.classList.remove('active');
         }
+
+        document.getElementById('modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+            
+            if (event.ctrlKey && event.key === 'u') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.key === 'p') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.key === 'F12') {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('copy', function(event) {
+            event.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('cut', function(event) {
+            event.preventDefault();
+            return false;
+        });
 
         document.getElementById('searchInput').focus();
     </script>
