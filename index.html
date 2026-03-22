@@ -7,7 +7,36 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <script>
-        mermaid.initialize({ startOnLoad: false });
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 50
+            },
+            themeVariables: {
+                fontSize: '16px',
+                fontFamily: 'Microsoft YaHei',
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#667eea',
+                lineColor: '#666',
+                secondaryColor: '#764ba2',
+                tertiaryColor: '#e1f5ff',
+                background: '#fff',
+                mainBkg: '#fff',
+                nodeBorder: '#667eea',
+                clusterBkg: '#f9f9f9',
+                clusterBorder: '#e0e0e0',
+                titleColor: '#333',
+                edgeLabelBackground: '#fff',
+                edgeLabelColor: '#666'
+            }
+        });
     </script>
     <style>
         * {
@@ -351,18 +380,42 @@
         }
 
         .modal-body .mermaid {
-            background: #f9f9f9;
-            padding: 30px;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            border-radius: 16px;
             margin: 2em 0;
             text-align: center;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
         }
 
         .modal-body .mermaid svg {
             max-width: 100%;
             height: auto;
+            display: inline-block;
+        }
+
+        .modal-body .mermaid .node rect,
+        .modal-body .mermaid .node circle,
+        .modal-body .mermaid .node polygon,
+        .modal-body .mermaid .node path {
+            stroke-width: 2px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .modal-body .mermaid .edgePath {
+            stroke-width: 2px;
+            stroke: #667eea;
+        }
+
+        .modal-body .mermaid .edgeLabel {
+            background-color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            border: 1px solid #e0e0e0;
         }
 
         @media (max-width: 768px) {
