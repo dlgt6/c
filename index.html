@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>粗轧程序功能块分析报告</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -42,7 +41,7 @@
         }
 
         .search-box {
-            background: rgba(255,255,255,255,0.95);
+            background: rgba(255,255,255,0.95);
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
@@ -70,11 +69,11 @@
         }
 
         .category h2 {
-            color: #667eea;
+            color: #fff;
             font-size: 1.8em;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #fff;
         }
 
         .grid {
@@ -92,6 +91,8 @@
             transition: all 0.3s;
             cursor: pointer;
             border-left: 4px solid transparent;
+            text-decoration: none;
+            display: block;
         }
 
         .card:hover {
@@ -126,7 +127,7 @@
         .footer {
             text-align: center;
             padding: 30px;
-            color: #999;
+            color: #fff;
             font-size: 0.9em;
         }
 
@@ -134,171 +135,6 @@
             .grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
-        }
-
-        .markdown-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .markdown-modal.active {
-            display: block;
-        }
-
-        .markdown-content {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .markdown-content h1,
-        .markdown-content h2,
-        .markdown-content h3,
-        .markdown-content h4,
-        .markdown-content h5,
-        .markdown-content h6 {
-            color: #667eea;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .markdown-content h1 {
-            font-size: 2.2em;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .markdown-content h2 {
-            font-size: 1.8em;
-        }
-
-        .markdown-content h3 {
-            font-size: 1.5em;
-        }
-
-        .markdown-content p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .markdown-content ul,
-        .markdown-content ol {
-            margin-bottom: 20px;
-            padding-left: 30px;
-        }
-
-        .markdown-content li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .markdown-content code {
-            background: #f4f4f4;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            color: #d63384;
-        }
-
-        .markdown-content pre {
-            background: #282c34;
-            color: #abb2bf;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-
-        .markdown-content pre code {
-            background: none;
-            color: inherit;
-            padding: 0;
-        }
-
-        .markdown-content blockquote {
-            border-left: 4px solid #667eea;
-            padding-left: 20px;
-            margin: 20px 0;
-            color: #666;
-            font-style: italic;
-            background: #f8f9fa;
-            padding: 15px 20px;
-        }
-
-        .markdown-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .markdown-content th,
-        .markdown-content td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .markdown-content th {
-            background: #667eea;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .markdown-content tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-        .markdown-content a {
-            color: #667eea;
-            text-decoration: none;
-            border-bottom: 1px dotted #667eea;
-        }
-
-        .markdown-content a:hover {
-            color: #764ba2;
-            border-bottom: 1px solid #764ba2;
-        }
-
-        .close-btn {
-            position: fixed;
-            top: 20px;
-            right: 30px;
-            background: #fff;
-            color: #667eea;
-            border: 2px solid #667eea;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-            z-index: 1001;
-        }
-
-        .close-btn:hover {
-            background: #667eea;
-            color: #fff;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #667eea;
-            font-size: 18px;
         }
     </style>
 </head>
@@ -652,13 +488,6 @@
         </div>
     </div>
 
-    <div class="markdown-modal" id="markdownModal">
-        <button class="close-btn" onclick="closeModal()">关闭</button>
-        <div class="markdown-content" id="markdownContent">
-            <div class="loading">加载中...</div>
-        </div>
-    </div>
-
     <script>
         function filterCards() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
@@ -679,57 +508,6 @@
                 }
             });
         }
-
-        function openModal(markdownFile) {
-            const modal = document.getElementById('markdownModal');
-            const content = document.getElementById('markdownContent');
-            
-            modal.classList.add('active');
-            content.innerHTML = '<div class="loading">加载中...</div>';
-            
-            fetch(markdownFile)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('文件加载失败');
-                    }
-                    return response.text();
-                })
-                .then(markdown => {
-                    const html = marked.parse(markdown);
-                    content.innerHTML = html;
-                })
-                .catch(error => {
-                    content.innerHTML = '<div class="loading" style="color: red;">加载失败: ' + error.message + '</div>';
-                });
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('markdownModal');
-            modal.classList.remove('active');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const markdownFile = this.getAttribute('href');
-                    openModal(markdownFile);
-                });
-            });
-        });
-
-        document.getElementById('markdownModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
 
         document.getElementById('searchInput').focus();
     </script>
