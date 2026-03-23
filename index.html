@@ -234,7 +234,7 @@
         .modal-title {
             font-size: 1.3em;
             font-weight: bold;
-            color: #333;
+            color: #c9d1d9;
             margin: 0;
         }
 
@@ -867,57 +867,62 @@
                             const id = 'mermaid-render-' + index + '-' + Date.now();
                             const graphDef = element.textContent.trim();
                             
-                            if (!graphDef) return;
+                            if (!graphDef) {
+                                console.warn('空 mermaid 定义，跳过');
+                                return;
+                            }
                             
-                            element.textContent = '';
+                            element.innerHTML = '<div style="color:#aaa; padding:1rem;">渲染中...</div>';
                             
                             mermaid.render(id, graphDef)
-                                .then(({ svg }) => {
+                                .then(({ svg, bindFunctions }) => {
                                     element.innerHTML = svg;
                                     
                                     const svgEl = element.querySelector('svg');
-                                    if (!svgEl) return;
-                                    
-                                    svgEl.style.maxWidth = '100%';
-                                    svgEl.style.height = 'auto';
-                                    svgEl.style.display = 'block';
-                                    svgEl.style.margin = '0 auto';
-                                    
-                                    svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
-                                        el.setAttribute('fill', '#161b22');
-                                        el.setAttribute('stroke', '#238636');
-                                        el.setAttribute('stroke-width', '1.8');
-                                    });
-                                    
-                                    svgEl.querySelectorAll('.node text, .node tspan').forEach(t => {
-                                        t.setAttribute('fill', '#c9d1d9');
-                                        t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-                                        t.style.fontSize = '14px';
-                                        t.style.fontWeight = '500';
-                                    });
-                                    
-                                    svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
-                                        p.setAttribute('stroke', '#8b949e');
-                                        p.setAttribute('stroke-width', '1.8');
-                                    });
-                                    
-                                    svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
-                                        r.setAttribute('fill', '#0d1117');
-                                        r.setAttribute('stroke', '#30363d');
-                                    });
-                                    
-                                    svgEl.querySelectorAll('.edgeLabel text, .edgeLabel tspan').forEach(t => {
-                                        t.setAttribute('fill', '#c9d1d9');
-                                    });
+                                    if (svgEl) {
+                                        svgEl.style.maxWidth = '100%';
+                                        svgEl.style.height = 'auto';
+                                        svgEl.style.display = 'block';
+                                        svgEl.style.margin = '0 auto';
+                                        
+                                        svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
+                                            el.setAttribute('fill', '#161b22');
+                                            el.setAttribute('stroke', '#238636');
+                                            el.setAttribute('stroke-width', '1.8');
+                                        });
+                                        
+                                        svgEl.querySelectorAll('.node text, .node tspan').forEach(t => {
+                                            t.setAttribute('fill', '#c9d1d9');
+                                            t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                                            t.style.fontSize = '14px';
+                                            t.style.fontWeight = '500';
+                                        });
+                                        
+                                        svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
+                                            p.setAttribute('stroke', '#8b949e');
+                                            p.setAttribute('stroke-width', '1.8');
+                                        });
+                                        
+                                        svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
+                                            r.setAttribute('fill', '#0d1117');
+                                            r.setAttribute('stroke', '#30363d');
+                                        });
+                                        
+                                        svgEl.querySelectorAll('.edgeLabel text, .edgeLabel tspan').forEach(t => {
+                                            t.setAttribute('fill', '#c9d1d9');
+                                        });
+                                        
+                                        if (bindFunctions) bindFunctions(svgEl);
+                                    }
                                 })
                                 .catch(err => {
-                                    console.error('Mermaid render error:', err);
-                                    element.innerHTML = `<div style="color:#ff6b6b; padding:1.5rem; background:rgba(255,107,107,0.15); border:1px solid #ff6b6b; border-radius:8px;">
-                                        图表渲染失败<br>${err.message || '未知错误'}
+                                    console.error('渲染失败:', err, graphDef.slice(0,100));
+                                    element.innerHTML = `<div style="color:#ff6b6b; padding:1.5rem; background:rgba(255,107,107,0.12); border-radius:8px;">
+                                        Mermaid 渲染失败<br>${err.message || err}
                                     </div>`;
                                 });
                         });
-                    }, 150);
+                    }, 200);
                 })
                 .catch(error => {
                     modalBody.innerHTML = '<p style="color: #f44336;">加载失败: ' + error.message + '</p>';
