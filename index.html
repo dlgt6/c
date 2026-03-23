@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粗轧程序功能块分析报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h1 span {
+            display: block;
+            font-size: 0.6em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 8px rgba(102,126,234,0.2);
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category h2 {
+            color: #fff;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #fff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-left-color: #667eea;
+        }
+
+        .card h3 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
+        .card .badge {
+            display: inline-block;
+            background: #667eea;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .markdown-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .markdown-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .markdown-content {
+            max-width: 1200px;
+            width: 100%;
+            max-height: calc(100vh - 40px);
+            margin: 0 auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5,
+        .markdown-content h6 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .markdown-content h1 {
+            font-size: 2.2em;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.8em;
+        }
+
+        .markdown-content h3 {
+            font-size: 1.5em;
+        }
+
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        .markdown-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .markdown-content code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .markdown-content pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .markdown-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background: #667eea;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .markdown-content tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .markdown-content a {
+            color: #667eea;
+            text-decoration: none;
+            border-bottom: 1px dotted #667eea;
+        }
+
+        .markdown-content a:hover {
+            color: #764ba2;
+            border-bottom: 1px solid #764ba2;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: #fff;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            粗轧程序功能块分析报告
+            <span>PLC功能块手术刀级深度分析</span>
+        </h1>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索功能块名称..." onkeyup="filterCards()">
+        </div>
+
+        <div class="category">
+            <h2>数学运算类</h2>
+            <div class="grid">
+                <a href="C_ADD4_分析报告.md" class="card" data-md="C_ADD4_分析报告.md">
+                    <h3>C_ADD4</h3>
+                    <p>加法器（4个加数，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_ADSD_分析报告.md" class="card" data-md="C_ADSD_分析报告.md">
+                    <h3>C_ADSD</h3>
+                    <p>加法器和减法器（DINT类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_SUB4_分析报告.md" class="card" data-md="C_SUB4_分析报告.md">
+                    <h3>C_SUB4</h3>
+                    <p>减法器（4个减数，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_MUL4_分析报告.md" class="card" data-md="C_MUL4_分析报告.md">
+                    <h3>C_MUL4</h3>
+                    <p>乘法器（4个乘数，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_MULD_分析报告.md" class="card" data-md="C_MULD_分析报告.md">
+                    <h3>C_MULD</h3>
+                    <p>乘法器和除法器（实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>控制逻辑类</h2>
+            <div class="grid">
+                <a href="C_NSWR_分析报告.md" class="card" data-md="C_NSWR_分析报告.md">
+                    <h3>C_NSWR</h3>
+                    <p>数值切换开关（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSWI_分析报告.md" class="card" data-md="C_NSWI_分析报告.md">
+                    <h3>C_NSWI</h3>
+                    <p>数值切换开关（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSWD_分析报告.md" class="card" data-md="C_NSWD_分析报告.md">
+                    <h3>C_NSWD</h3>
+                    <p>数值切换开关（DINT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW3R_分析报告.md" class="card" data-md="C_NSW3R_分析报告.md">
+                    <h3>C_NSW3R</h3>
+                    <p>3分支切换开关（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW3I_分析报告.md" class="card" data-md="C_NSW3I_分析报告.md">
+                    <h3>C_NSW3I</h3>
+                    <p>3分支切换开关（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW3D_分析报告.md" class="card" data-md="C_NSW3D_分析报告.md">
+                    <h3>C_NSW3D</h3>
+                    <p>3分支切换开关（DINT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW4I_分析报告.md" class="card" data-md="C_NSW4I_分析报告.md">
+                    <h3>C_NSW4I</h3>
+                    <p>4分支切换开关（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW6I_分析报告.md" class="card" data-md="C_NSW6I_分析报告.md">
+                    <h3>C_NSW6I</h3>
+                    <p>6分支切换开关（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_NSW8I_分析报告.md" class="card" data-md="C_NSW8I_分析报告.md">
+                    <h3>C_NSW8I</h3>
+                    <p>8分支切换开关（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_LIMR_分析报告.md" class="card" data-md="C_LIMR_分析报告.md">
+                    <h3>C_LIMR</h3>
+                    <p>限幅器（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_LIMI_分析报告.md" class="card" data-md="C_LIMI_分析报告.md">
+                    <h3>C_LIMI</h3>
+                    <p>限幅器（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_LIMD_分析报告.md" class="card" data-md="C_LIMD_分析报告.md">
+                    <h3>C_LIMD</h3>
+                    <p>限幅器（DINT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_DB_分析报告.md" class="card" data-md="C_DB_分析报告.md">
+                    <h3>C_DB</h3>
+                    <p>死区（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_DPD_分析报告.md" class="card" data-md="C_DPD_分析报告.md">
+                    <h3>C_DPD</h3>
+                    <p>死区（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_DLM_分析报告.md" class="card" data-md="C_DLM_分析报告.md">
+                    <h3>C_DLM</h3>
+                    <p>动态限幅器</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_INV_分析报告.md" class="card" data-md="C_INV_分析报告.md">
+                    <h3>C_INV</h3>
+                    <p>反相器（实数类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>定时器类</h2>
+            <div class="grid">
+                <a href="C_ODT_分析报告.md" class="card" data-md="C_ODT_分析报告.md">
+                    <h3>C_ODT</h3>
+                    <p>开关ON延时定时器（BOOL类型）</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OFDT_分析报告.md" class="card" data-md="C_OFDT_分析报告.md">
+                    <h3>C_OFDT</h3>
+                    <p>开关OFF延时定时器（BOOL类型）</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT01_分析报告.md" class="card" data-md="C_OT01_分析报告.md">
+                    <h3>C_OT01</h3>
+                    <p>单次定时器1</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT02_分析报告.md" class="card" data-md="C_OT02_分析报告.md">
+                    <h3>C_OT02</h3>
+                    <p>单次定时器2</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT51_分析报告.md" class="card" data-md="C_OT51_分析报告.md">
+                    <h3>C_OT51</h3>
+                    <p>单次定时器51</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT71_分析报告.md" class="card" data-md="C_OT71_分析报告.md">
+                    <h3>C_OT71</h3>
+                    <p>单次定时器71</p>
+                    <span class="badge">定时器</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>检测器类</h2>
+            <div class="grid">
+                <a href="C_DET_分析报告.md" class="card" data-md="C_DET_分析报告.md">
+                    <h3>C_DET</h3>
+                    <p>检测器（接通延时和断开延时）</p>
+                    <span class="badge">检测器</span>
+                </a>
+                <a href="C_HMD1_分析报告.md" class="card" data-md="C_HMD1_分析报告.md">
+                    <h3>C_HMD1</h3>
+                    <p>热/冷金属检测器（双检测器）</p>
+                    <span class="badge">检测器</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>HMI接口类</h2>
+            <div class="grid">
+                <a href="C_HMI1_分析报告.md" class="card" data-md="C_HMI1_分析报告.md">
+                    <h3>C_HMI1</h3>
+                    <p>HMI接口1（单命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI2_分析报告.md" class="card" data-md="C_HMI2_分析报告.md">
+                    <h3>C_HMI2</h3>
+                    <p>HMI接口2（双命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI3_分析报告.md" class="card" data-md="C_HMI3_分析报告.md">
+                    <h3>C_HMI3</h3>
+                    <p>HMI接口3（三命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI4_分析报告.md" class="card" data-md="C_HMI4_分析报告.md">
+                    <h3>C_HMI4</h3>
+                    <p>HMI接口4（四命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI_R_分析报告.md" class="card" data-md="C_HMI_R_分析报告.md">
+                    <h3>C_HMI_R</h3>
+                    <p>HMI接口实数变量（限幅、执行、实际值反馈）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>信号处理类</h2>
+            <div class="grid">
+                <a href="C_FLT1_分析报告.md" class="card" data-md="C_FLT1_分析报告.md">
+                    <h3>C_FLT1</h3>
+                    <p>滤波器1（一阶低通滤波器）</p>
+                    <span class="badge">信号处理</span>
+                </a>
+                <a href="C_LDLG_分析报告.md" class="card" data-md="C_LDLG_分析报告.md">
+                    <h3>C_LDLG</h3>
+                    <p>超前滞后</p>
+                    <span class="badge">信号处理</span>
+                </a>
+                <a href="C_IPLN40_分析报告.md" class="card" data-md="C_IPLN40_分析报告.md">
+                    <h3>C_IPLN40</h3>
+                    <p>插值器40（40点插值）</p>
+                    <span class="badge">信号处理</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>位置控制类</h2>
+            <div class="grid">
+                <a href="C_PA1G_分析报告.md" class="card" data-md="C_PA1G_分析报告.md">
+                    <h3>C_PA1G</h3>
+                    <p>位置检测和归零（绝对值/半绝对值编码器）</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_PDSI_分析报告.md" class="card" data-md="C_PDSI_分析报告.md">
+                    <h3>C_PDSI</h3>
+                    <p>位置检测和归零（磁致伸缩位置传感器）</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP01_分析报告.md" class="card" data-md="C_CP01_分析报告.md">
+                    <h3>C_CP01</h3>
+                    <p>速度参考复合（2部分）</p>
+                    <span class="badge">位置控制</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>其他功能类</h2>
+            <div class="grid">
+                <a href="C_9DAD_分析报告.md" class="card" data-md="C_9DAD_分析报告.md">
+                    <h3>C_9DAD</h3>
+                    <p>距离累加器（通过添加偏差累加距离）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_AVGR_分析报告.md" class="card" data-md="C_AVGR_分析报告.md">
+                    <h3>C_AVGR</h3>
+                    <p>平均值生成器（实数类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_MAX_分析报告.md" class="card" data-md="C_MAX_分析报告.md">
+                    <h3>C_MAX</h3>
+                    <p>最大值（3输入，实数类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_MIN_分析报告.md" class="card" data-md="C_MIN_分析报告.md">
+                    <h3>C_MIN</h3>
+                    <p>最小值（3输入，实数类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_NCG_分析报告.md" class="card" data-md="C_NCG_分析报告.md">
+                    <h3>C_NCG</h3>
+                    <p>自然常数生成器（实数类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_SCAL2_分析报告.md" class="card" data-md="C_SCAL2_分析报告.md">
+                    <h3>C_SCAL2</h3>
+                    <p>标度函数（断开错误检测和标度转换）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_SIM_分析报告.md" class="card" data-md="C_SIM_分析报告.md">
+                    <h3>C_SIM</h3>
+                    <p>仿真（两个输入值切换）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_INI_RANGE_分析报告.md" class="card" data-md="C_INI_RANGE_分析报告.md">
+                    <h3>C_INI_RANGE</h3>
+                    <p>值在范围内（INT类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_INR_RANGE_分析报告.md" class="card" data-md="C_INR_RANGE_分析报告.md">
+                    <h3>C_INR_RANGE</h3>
+                    <p>值在范围内（REAL类型）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="C_OP_SW1_分析报告.md" class="card" data-md="C_OP_SW1_分析报告.md">
+                    <h3>C_OP_SW1</h3>
+                    <p>操作员开关1</p>
+                    <span class="badge">其他功能</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>手动控制类</h2>
+            <div class="grid">
+                <a href="C_APC_分析报告.md" class="card" data-md="C_APC_分析报告.md">
+                    <h3>C_APC</h3>
+                    <p>APC（自动位置控制）</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_APCM_分析报告.md" class="card" data-md="C_APCM_分析报告.md">
+                    <h3>C_APCM</h3>
+                    <p>APCM（手动位置控制）</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN01_分析报告.md" class="card" data-md="C_MN01_分析报告.md">
+                    <h3>C_MN01</h3>
+                    <p>手动01</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN81_分析报告.md" class="card" data-md="C_MN81_分析报告.md">
+                    <h3>C_MN81</h3>
+                    <p>手动81</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN83_分析报告.md" class="card" data-md="C_MN83_分析报告.md">
+                    <h3>C_MN83</h3>
+                    <p>手动83</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN92_分析报告.md" class="card" data-md="C_MN92_分析报告.md">
+                    <h3>C_MN92</h3>
+                    <p>手动92</p>
+                    <span class="badge">手动控制</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>共 56 个功能块分析报告 | 支持搜索和分类浏览</p>
+        </div>
+    </div>
+
+    <div class="markdown-modal" id="markdownModal">
+        <button class="close-btn" onclick="closeModal()">关闭</button>
+        <div class="markdown-content" id="markdownContent">
+            <div class="loading">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        function filterCards() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const badge = card.querySelector('.badge').textContent.toLowerCase();
+                
+                if (searchInput === '' || 
+                    title.includes(searchInput) || 
+                    description.includes(searchInput) || 
+                    badge.includes(searchInput)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openModal(markdownFile) {
+            const modal = document.getElementById('markdownModal');
+            const content = document.getElementById('markdownContent');
+            
+            modal.classList.add('active');
+            content.innerHTML = '<div class="loading">加载中...</div>';
+            
+            fetch(markdownFile)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('文件加载失败');
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    const html = marked.parse(markdown);
+                    content.innerHTML = html;
+                    
+                    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+                    const mermaidBlocks = content.querySelectorAll('pre code.language-mermaid');
+                    mermaidBlocks.forEach(async (block) => {
+                        const graphDefinition = block.textContent;
+                        const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                        try {
+                            const { svg } = await mermaid.render(id, graphDefinition);
+                            const pre = block.parentElement;
+                            const div = document.createElement('div');
+                            div.className = 'mermaid-container';
+                            div.innerHTML = svg;
+                            div.style.textAlign = 'center';
+                            div.style.margin = '20px 0';
+                            pre.replaceWith(div);
+                        } catch (error) {
+                            console.error('Mermaid渲染错误:', error);
+                        }
+                    });
+                })
+                .catch(error => {
+                    content.innerHTML = '<div class="loading" style="color: red;">加载失败: ' + error.message + '</div>';
+                });
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('markdownModal');
+            modal.classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const markdownFile = this.getAttribute('data-md');
+                    openModal(markdownFile);
+                });
+            });
+        });
+
+        document.getElementById('markdownModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('searchInput').focus();
+    </script>
+</body>
+</html>
