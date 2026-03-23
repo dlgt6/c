@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>粗轧程序功能块分析报告</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -699,6 +700,25 @@
                 .then(markdown => {
                     const html = marked.parse(markdown);
                     content.innerHTML = html;
+                    
+                    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+                    const mermaidBlocks = content.querySelectorAll('pre code.language-mermaid');
+                    mermaidBlocks.forEach(async (block) => {
+                        const graphDefinition = block.textContent;
+                        const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                        try {
+                            const { svg } = await mermaid.render(id, graphDefinition);
+                            const pre = block.parentElement;
+                            const div = document.createElement('div');
+                            div.className = 'mermaid-container';
+                            div.innerHTML = svg;
+                            div.style.textAlign = 'center';
+                            div.style.margin = '20px 0';
+                            pre.replaceWith(div);
+                        } catch (error) {
+                            console.error('Mermaid渲染错误:', error);
+                        }
+                    });
                 })
                 .catch(error => {
                     content.innerHTML = '<div class="loading" style="color: red;">加载失败: ' + error.message + '</div>';
