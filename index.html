@@ -221,12 +221,13 @@
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #667eea;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             background: #fff;
-            z-index: 10;
-            padding: 10px 30px;
-            margin: -40px -40px 20px -40px;
+            z-index: 20;
+            padding: 10px 40px;
             min-height: 50px;
         }
 
@@ -865,46 +866,54 @@
                             const id = 'mermaid-render-' + index + '-' + Date.now();
                             const graphDef = element.textContent.trim();
                             
-                            mermaid.render(id, graphDef).then(({ svg }) => {
-                                element.innerHTML = svg;
-                                
-                                const svgEl = element.querySelector('svg');
-                                if (!svgEl) return;
-                                
-                                svgEl.style.maxWidth = '100%';
-                                svgEl.style.height = 'auto';
-                                
-                                svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
-                                    el.setAttribute('fill', '#161b22');
-                                    el.setAttribute('stroke', '#238636');
-                                    el.setAttribute('stroke-width', '1.8');
+                            try {
+                                mermaid.render(id, graphDef).then(result => {
+                                    if (result && result.svg) {
+                                        element.innerHTML = result.svg;
+                                        
+                                        const svgEl = element.querySelector('svg');
+                                        if (svgEl) {
+                                            svgEl.style.maxWidth = '100%';
+                                            svgEl.style.height = 'auto';
+                                            
+                                            svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
+                                                el.setAttribute('fill', '#161b22');
+                                                el.setAttribute('stroke', '#238636');
+                                                el.setAttribute('stroke-width', '1.8');
+                                            });
+                                            
+                                            svgEl.querySelectorAll('.node tspan, .node text').forEach(t => {
+                                                t.setAttribute('fill', '#c9d1d9');
+                                                t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                                                t.style.fontSize = '14px';
+                                                t.style.fontWeight = '500';
+                                            });
+                                            
+                                            svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
+                                                p.setAttribute('stroke', '#8b949e');
+                                                p.setAttribute('stroke-width', '1.8');
+                                            });
+                                            
+                                            svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
+                                                r.setAttribute('fill', '#0d1117');
+                                                r.setAttribute('stroke', '#30363d');
+                                            });
+                                            
+                                            svgEl.querySelectorAll('.edgeLabel tspan, .edgeLabel text').forEach(t => {
+                                                t.setAttribute('fill', '#c9d1d9');
+                                            });
+                                        }
+                                    } else if (result && typeof result === 'string') {
+                                        element.innerHTML = result;
+                                    } else {
+                                        console.error('Unexpected mermaid result:', result);
+                                        element.innerHTML = '<p style="color:#f85149;padding:1.5rem;background:#490202;border-radius:8px;">渲染失败：未返回有效的SVG</p>';
+                                    }
+                                }).catch(err => {
+                                    console.error('Mermaid rendering error:', err);
+                                    element.innerHTML = `<div style="color:#f85149;padding:1.5rem;background:#490202;border-radius:8px;">渲染失败：${err.message}</div>`;
                                 });
-                                
-                                svgEl.querySelectorAll('.node tspan, .node text').forEach(t => {
-                                    t.setAttribute('fill', '#c9d1d9');
-                                    t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-                                    t.style.fontSize = '14px';
-                                    t.style.fontWeight = '500';
-                                });
-                                
-                                svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
-                                    p.setAttribute('stroke', '#8b949e');
-                                    p.setAttribute('stroke-width', '1.8');
-                                });
-                                
-                                svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
-                                    r.setAttribute('fill', '#0d1117');
-                                    r.setAttribute('stroke', '#30363d');
-                                });
-                                
-                                svgEl.querySelectorAll('.edgeLabel tspan, .edgeLabel text').forEach(t => {
-                                    t.setAttribute('fill', '#c9d1d9');
-                                });
-                            }).catch(err => {
-                                console.error(err);
-                                element.innerHTML = `<div style="color:#f85149;padding:1.5rem;background:#490202;border-radius:8px;">渲染失败：${err.message}</div>`;
                             });
-                        });
                     }, 300);
                 })
                 .catch(error => {
