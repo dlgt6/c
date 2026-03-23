@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>功能块功能介绍</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.4/dist/dagre-d3.min.js"></script>
     <script>
@@ -204,7 +204,7 @@
         }
 
         .modal-content {
-            background: #fff;
+            background: #0d1117;
             margin: 0;
             border-radius: 0;
             padding: 40px;
@@ -220,12 +220,12 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #30363d;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: #fff;
+            background: #161b22;
             z-index: 20;
             padding: 10px 40px;
             min-height: 50px;
@@ -260,20 +260,21 @@
         }
 
         .modal-body {
+            background: #0d1117;
+            color: #c9d1d9;
             font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, sans-serif;
             font-size: 0.95em;
             line-height: 1.8;
-            color: #333;
             word-wrap: break-word;
         }
 
         .modal-body h1 {
             font-size: 2em;
-            color: #667eea;
+            color: #58a6ff;
             margin-top: 1.5em;
             margin-bottom: 0.8em;
             padding-bottom: 0.3em;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #58a6ff;
         }
 
         .modal-body h2 {
@@ -282,7 +283,7 @@
             margin-top: 1.3em;
             margin-bottom: 0.6em;
             padding-bottom: 0.2em;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #764ba2;
         }
 
         .modal-body h3 {
@@ -866,55 +867,57 @@
                             const id = 'mermaid-render-' + index + '-' + Date.now();
                             const graphDef = element.textContent.trim();
                             
-                            try {
-                                mermaid.render(id, graphDef).then(result => {
-                                    if (result && result.svg) {
-                                        element.innerHTML = result.svg;
-                                        
-                                        const svgEl = element.querySelector('svg');
-                                        if (svgEl) {
-                                            svgEl.style.maxWidth = '100%';
-                                            svgEl.style.height = 'auto';
-                                            
-                                            svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
-                                                el.setAttribute('fill', '#161b22');
-                                                el.setAttribute('stroke', '#238636');
-                                                el.setAttribute('stroke-width', '1.8');
-                                            });
-                                            
-                                            svgEl.querySelectorAll('.node tspan, .node text').forEach(t => {
-                                                t.setAttribute('fill', '#c9d1d9');
-                                                t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-                                                t.style.fontSize = '14px';
-                                                t.style.fontWeight = '500';
-                                            });
-                                            
-                                            svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
-                                                p.setAttribute('stroke', '#8b949e');
-                                                p.setAttribute('stroke-width', '1.8');
-                                            });
-                                            
-                                            svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
-                                                r.setAttribute('fill', '#0d1117');
-                                                r.setAttribute('stroke', '#30363d');
-                                            });
-                                            
-                                            svgEl.querySelectorAll('.edgeLabel tspan, .edgeLabel text').forEach(t => {
-                                                t.setAttribute('fill', '#c9d1d9');
-                                            });
-                                        }
-                                    } else if (result && typeof result === 'string') {
-                                        element.innerHTML = result;
-                                    } else {
-                                        console.error('Unexpected mermaid result:', result);
-                                        element.innerHTML = '<p style="color:#f85149;padding:1.5rem;background:#490202;border-radius:8px;">渲染失败：未返回有效的SVG</p>';
-                                    }
-                                }).catch(err => {
-                                    console.error('Mermaid rendering error:', err);
-                                    element.innerHTML = `<div style="color:#f85149;padding:1.5rem;background:#490202;border-radius:8px;">渲染失败：${err.message}</div>`;
+                            if (!graphDef) return;
+                            
+                            element.textContent = '';
+                            
+                            mermaid.render(id, graphDef)
+                                .then(({ svg }) => {
+                                    element.innerHTML = svg;
+                                    
+                                    const svgEl = element.querySelector('svg');
+                                    if (!svgEl) return;
+                                    
+                                    svgEl.style.maxWidth = '100%';
+                                    svgEl.style.height = 'auto';
+                                    svgEl.style.display = 'block';
+                                    svgEl.style.margin = '0 auto';
+                                    
+                                    svgEl.querySelectorAll('.node > rect, .node > circle, .node > polygon').forEach(el => {
+                                        el.setAttribute('fill', '#161b22');
+                                        el.setAttribute('stroke', '#238636');
+                                        el.setAttribute('stroke-width', '1.8');
+                                    });
+                                    
+                                    svgEl.querySelectorAll('.node text, .node tspan').forEach(t => {
+                                        t.setAttribute('fill', '#c9d1d9');
+                                        t.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                                        t.style.fontSize = '14px';
+                                        t.style.fontWeight = '500';
+                                    });
+                                    
+                                    svgEl.querySelectorAll('.edgePath, .edgeMarkerPath').forEach(p => {
+                                        p.setAttribute('stroke', '#8b949e');
+                                        p.setAttribute('stroke-width', '1.8');
+                                    });
+                                    
+                                    svgEl.querySelectorAll('.edgeLabel rect').forEach(r => {
+                                        r.setAttribute('fill', '#0d1117');
+                                        r.setAttribute('stroke', '#30363d');
+                                    });
+                                    
+                                    svgEl.querySelectorAll('.edgeLabel text, .edgeLabel tspan').forEach(t => {
+                                        t.setAttribute('fill', '#c9d1d9');
+                                    });
+                                })
+                                .catch(err => {
+                                    console.error('Mermaid render error:', err);
+                                    element.innerHTML = `<div style="color:#ff6b6b; padding:1.5rem; background:rgba(255,107,107,0.15); border:1px solid #ff6b6b; border-radius:8px;">
+                                        图表渲染失败<br>${err.message || '未知错误'}
+                                    </div>`;
                                 });
-                            });
-                    }, 300);
+                        });
+                    }, 150);
                 })
                 .catch(error => {
                     modalBody.innerHTML = '<p style="color: #f44336;">加载失败: ' + error.message + '</p>';
