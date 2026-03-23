@@ -6,21 +6,23 @@
     <title>功能块功能介绍</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.4/dist/dagre-d3.min.js"></script>
     <script>
         mermaid.initialize({ 
             startOnLoad: false,
-            theme: 'base',
+            theme: 'default',
             flowchart: {
                 useMaxWidth: true,
                 htmlLabels: true,
                 curve: 'basis',
                 padding: 20,
-                nodeSpacing: 50,
-                rankSpacing: 50,
-                defaultRenderer: 'dagre'
+                nodeSpacing: 60,
+                rankSpacing: 80,
+                diagramPadding: 20
             },
             themeVariables: {
-                fontSize: '16px',
+                fontSize: '15px',
                 fontFamily: 'Microsoft YaHei',
                 primaryColor: '#667eea',
                 primaryTextColor: '#fff',
@@ -30,7 +32,7 @@
                 tertiaryColor: '#e1f5ff',
                 quaternaryColor: '#ffe1e1',
                 background: '#fff',
-                mainBkg: '#667eea',
+                mainBkg: '#e1f5ff',
                 nodeBorder: '#667eea',
                 clusterBkg: '#f9f9f9',
                 clusterBorder: '#e0e0e0',
@@ -851,17 +853,67 @@
                     setTimeout(() => {
                         const mermaidElements = document.querySelectorAll('.mermaid');
                         mermaidElements.forEach((element, index) => {
-                            const id = 'mermaid-' + index;
-                            element.setAttribute('id', id);
-                            const graphDefinition = element.textContent;
-                            mermaid.render(id, graphDefinition).then(result => {
-                                element.innerHTML = result.svg;
-                            }).catch(error => {
-                                console.error('Mermaid rendering error:', error);
-                                element.innerHTML = '<p style="color: #f44336;">图表渲染失败</p>';
-                            });
+                            const id = 'mermaid-' + index + '-' + Date.now();
+                            const graphDefinition = element.textContent.trim();
+                            
+                            mermaid.render(id, graphDefinition)
+                                .then(result => {
+                                    element.innerHTML = result.svg;
+                                    const svg = element.querySelector('svg');
+                                    if (svg) {
+                                        svg.style.maxWidth = '100%';
+                                        svg.style.height = 'auto';
+                                        
+                                        const rects = svg.querySelectorAll('rect');
+                                        rects.forEach(rect => {
+                                            const fill = rect.getAttribute('fill');
+                                            if (!fill || fill === 'white' || fill === '#ffffff') {
+                                                rect.setAttribute('fill', '#e1f5ff');
+                                                rect.setAttribute('stroke', '#667eea');
+                                                rect.setAttribute('stroke-width', '2');
+                                            }
+                                        });
+                                        
+                                        const circles = svg.querySelectorAll('circle');
+                                        circles.forEach(circle => {
+                                            const fill = circle.getAttribute('fill');
+                                            if (!fill || fill === 'white' || fill === '#ffffff') {
+                                                circle.setAttribute('fill', '#ffe1e1');
+                                                circle.setAttribute('stroke', '#667eea');
+                                                circle.setAttribute('stroke-width', '2');
+                                            }
+                                        });
+                                        
+                                        const polygons = svg.querySelectorAll('polygon');
+                                        polygons.forEach(polygon => {
+                                            const fill = polygon.getAttribute('fill');
+                                            if (!fill || fill === 'white' || fill === '#ffffff') {
+                                                polygon.setAttribute('fill', '#e1ffe1');
+                                                polygon.setAttribute('stroke', '#667eea');
+                                                polygon.setAttribute('stroke-width', '2');
+                                            }
+                                        });
+                                        
+                                        const paths = svg.querySelectorAll('path.edgePath');
+                                        paths.forEach(path => {
+                                            path.setAttribute('stroke', '#667eea');
+                                            path.setAttribute('stroke-width', '2');
+                                        });
+                                        
+                                        const texts = svg.querySelectorAll('text');
+                                        texts.forEach(text => {
+                                            text.setAttribute('font-size', '14');
+                                            text.setAttribute('font-family', 'Microsoft YaHei');
+                                            text.setAttribute('font-weight', '500');
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Mermaid rendering error:', error);
+                                    element.innerHTML = '<p style="color: #f44336; padding: 20px; background: #ffebee; border-radius: 8px;">图表渲染失败: ' + error.message + '</p>';
+                                });
                         });
-                    }, 100);
+                    }, 200);
                 })
                 .catch(error => {
                     modalBody.innerHTML = '<p style="color: #f44336;">加载失败: ' + error.message + '</p>';
