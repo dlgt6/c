@@ -9,6 +9,24 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dagre-d3@0.6.4/dist/dagre-d3.min.js"></script>
     <script>
+        const renderer = new marked.Renderer();
+        renderer.code = function(code, language) {
+            if (language === 'mermaid') {
+                return '<div class="mermaid">' + code + '</div>';
+            }
+            return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
+        };
+
+        marked.setOptions({
+            renderer: renderer,
+            gfm: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: false,
+            smartLists: true,
+            smartypants: false
+        });
+
         mermaid.initialize({ 
             startOnLoad: false,
             theme: 'dark',
