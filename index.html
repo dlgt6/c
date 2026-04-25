@@ -1091,8 +1091,14 @@
             });
 
             categories.forEach(category => {
-                const visibleCards = category.querySelectorAll('.card[style="display: block"], .card:not([style])');
-                if (visibleCards.length === 0 && searchInput !== '') {
+                const gridCards = category.querySelectorAll('.grid .card');
+                let hasVisibleCard = false;
+                gridCards.forEach(card => {
+                    if (card.style.display !== 'none') {
+                        hasVisibleCard = true;
+                    }
+                });
+                if (!hasVisibleCard && searchInput !== '') {
                     category.style.display = 'none';
                 } else {
                     category.style.display = 'block';
