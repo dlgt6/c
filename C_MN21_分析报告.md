@@ -1,55 +1,58 @@
-# C_MN01 功能块分析报告
+# C_MN21 功能块分析报告
 
 ## 基本信息
 
 | 项目 | 内容 |
 |------|------|
-| 功能块名称 | C_MN01 |
-| 功能描述 | Manual Sequence of SS-2P or DS-2P Solenoid Valve without STOP Operation Device（SS-2P或DS-2P电磁阀手动顺序控制，无停止操作装置） |
+| 功能块名称 | C_MN21 |
+| 功能描述 | Manual Sequence of SS-2P or DS-2P Solenoid Valve with STOP Operation Device（SS-2P或DS-2P电磁阀手动顺序控制，带停止操作装置） |
 | 最后修改 | 2015.12.25 |
 | 作者 | Gao Weidi |
 | 页数 | 1页 |
 
 ## 功能概述
 
-C_MN01 是一个简单的双线圈电磁阀手动顺序控制功能块，用于控制SS-2P（单线圈双位置）或DS-2P（双线圈双位置）电磁阀。该功能块实现基本的互锁逻辑，确保A和B线圈不会同时得电。
+C_MN21 是一个带停止操作装置的SS-2P或DS-2P电磁阀手动顺序控制功能块。与C_MN01相比，该功能块增加了停止命令输入，可以在运行过程中随时停止电磁阀输出。
 
 **主要应用场景**：
-- 单线圈双位置电磁阀控制
-- 双线圈双位置电磁阀控制
-- 简单的开/关控制
+- 需要紧急停止功能的双线圈电磁阀
+- 安全要求较高的液压控制系统
+- 需要中途停止的执行机构控制
 
-**电磁阀类型说明**：
-- **SS-2P**: Single Solenoid 2 Position（单线圈双位置），断电后靠弹簧复位
-- **DS-2P**: Double Solenoid 2 Position（双线圈双位置），断电后保持当前位置
+**与C_MN01的区别**：
+- C_MN01: 无停止操作装置
+- C_MN21: 带停止操作装置
 
 ## 思维导图
 
 ```mermaid
 graph TD
-    A[C_MN01 手动顺序控制] --> B[输入模块]
+    A[C_MN21 SS-2P/DS-2P手动顺序控制-带停止] --> B[输入模块]
     A --> C[处理模块]
     A --> D[输出模块]
     
     B --> B1[A]
     B --> B2[B]
-    B --> B3[A_SIL]
-    B --> B4[B_SIL]
+    B --> B3[STOP]
+    B --> B4[A_SIL]
+    B --> B5[B_SIL]
     
     C --> C1[A线圈控制]
     C --> C2[B线圈控制]
-    C --> C3[互锁逻辑]
+    C --> C3[停止处理]
     
     D --> D1[A_ON]
     D --> D2[B_ON]
     
     B1 --> C1
-    B2 --> C1
     B3 --> C1
+    B2 --> C1
+    B4 --> C1
     C1 --> D1
-    B1 --> C2
     B2 --> C2
-    B4 --> C2
+    B3 --> C2
+    B1 --> C2
+    B5 --> C2
     C2 --> D2
     
     style A fill:#e1f5ff
@@ -61,12 +64,16 @@ graph TD
 ## 流程路径描述
 
 ### A线圈控制路径：
-开始 → A信号 AND NOT B AND A_SIL → A_ON输出
+开始 → A信号 AND A_SIL AND NOT B AND NOT STOP → A_ON输出
 **功能**: 控制A线圈励磁
 
 ### B线圈控制路径：
-开始 → B信号 AND NOT A AND B_SIL → B_ON输出
+开始 → B信号 AND B_SIL AND NOT A AND NOT STOP → B_ON输出
 **功能**: 控制B线圈励磁
+
+### 停止路径：
+开始 → STOP信号 → A_ON和B_ON都复位
+**功能**: 紧急停止功能
 
 ## 逐帧功能分析
 
@@ -78,8 +85,9 @@ graph TD
 | 信号名称 | 信号描述 | 信号类型 | 触发值 |
 |----------|----------|----------|--------|
 | A | A命令 | BOOL | TRUE |
-| B | B命令 | BOOL | FALSE |
 | A_SIL | A联锁 | BOOL | TRUE |
+| B | B命令 | BOOL | FALSE |
+| STOP | 停止命令 | BOOL | FALSE |
 
 **输出功能**:
 | 信号名称 | 信号描述 | 信号类型 |
@@ -87,10 +95,10 @@ graph TD
 | A_ON | A线圈输出 | BOOL |
 
 **触发逻辑**:
-- IF A = TRUE AND B = FALSE AND A_SIL = TRUE THEN A_ON = TRUE
+- IF A = TRUE AND A_SIL = TRUE AND B = FALSE AND STOP = FALSE THEN A_ON = TRUE
 
 **功能实现**: 
-当A命令有效、B命令无效、A联锁有效时，输出A线圈励磁信号。实现了A和B命令的互锁。
+当所有条件满足时A线圈得电，当STOP命令有效时A线圈失电。
 
 ### Rung 8: B线圈控制
 
@@ -100,8 +108,9 @@ graph TD
 | 信号名称 | 信号描述 | 信号类型 | 触发值 |
 |----------|----------|----------|--------|
 | B | B命令 | BOOL | TRUE |
-| A | A命令 | BOOL | FALSE |
 | B_SIL | B联锁 | BOOL | TRUE |
+| A | A命令 | BOOL | FALSE |
+| STOP | 停止命令 | BOOL | FALSE |
 
 **输出功能**:
 | 信号名称 | 信号描述 | 信号类型 |
@@ -109,29 +118,29 @@ graph TD
 | B_ON | B线圈输出 | BOOL |
 
 **触发逻辑**:
-- IF B = TRUE AND A = FALSE AND B_SIL = TRUE THEN B_ON = TRUE
+- IF B = TRUE AND B_SIL = TRUE AND A = FALSE AND STOP = FALSE THEN B_ON = TRUE
 
 **功能实现**: 
-当B命令有效、A命令无效、B联锁有效时，输出B线圈励磁信号。实现了A和B命令的互锁。
+当所有条件满足时B线圈得电，当STOP命令有效时B线圈失电。
 
 ## 触发条件总结
 
 ### 控制条件
-| 线圈 | 触发条件 |
-|------|----------|
-| A_ON | A=TRUE AND B=FALSE AND A_SIL=TRUE |
-| B_ON | B=TRUE AND A=FALSE AND B_SIL=TRUE |
+| 线圈 | 触发条件 | 复位条件 |
+|------|----------|----------|
+| A_ON | A=TRUE AND A_SIL=TRUE AND B=FALSE AND STOP=FALSE | STOP=TRUE 或 B命令有效 |
+| B_ON | B=TRUE AND B_SIL=TRUE AND A=FALSE AND STOP=FALSE | STOP=TRUE 或 A命令有效 |
 
-### 互锁逻辑
-- A和B命令互锁，不能同时有效
-- 各自有独立的联锁信号
+### 停止功能
+- **STOP信号**: 优先级最高，可以立即停止所有输出
 
 ## 实现功能总结
 
 ### 主要功能
 1. **A线圈控制**: 控制A线圈励磁
 2. **B线圈控制**: 控制B线圈励磁
-3. **互锁保护**: 确保A和B不会同时得电
+3. **停止功能**: 支持紧急停止
+4. **互锁保护**: A和B命令互锁
 
 ## 关键信号说明
 
@@ -139,6 +148,7 @@ graph TD
 |----------|----------|----------|------|
 | A | A命令 | BOOL | A方向控制命令 |
 | B | B命令 | BOOL | B方向控制命令 |
+| STOP | 停止命令 | BOOL | 紧急停止信号 |
 | A_SIL | A联锁 | BOOL | A方向联锁信号 |
 | B_SIL | B联锁 | BOOL | B方向联锁信号 |
 | A_ON | A线圈输出 | BOOL | A线圈励磁输出 |
@@ -148,14 +158,16 @@ graph TD
 
 ### 调试步骤
 1. 检查A和B信号，确认命令正常
-2. 检查A_SIL和B_SIL信号，确认联锁条件满足
-3. 监控A_ON和B_ON信号，观察输出状态
+2. 检查STOP信号，确认停止功能正常
+3. 检查联锁信号，确认联锁条件满足
+4. 监控A_ON和B_ON信号，观察输出状态
 
 ### 常见问题
 1. **线圈不励磁**: 检查命令信号和联锁信号
-2. **互锁失效**: 检查逻辑是否正确
+2. **停止不生效**: 检查STOP信号
+3. **互锁失效**: 检查A和B命令逻辑
 
 ### 监控信号列表
-- A、B（命令信号）
+- A、B、STOP（命令信号）
 - A_SIL、B_SIL（联锁信号）
 - A_ON、B_ON（输出信号）
