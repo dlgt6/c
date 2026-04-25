@@ -66,6 +66,34 @@
             box-shadow: 0 0 0 8px rgba(102,126,234,0.2);
         }
 
+        .stats {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stats-item {
+            text-align: center;
+            padding: 10px 20px;
+        }
+
+        .stats-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stats-item .label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
         .category {
             margin-bottom: 30px;
         }
@@ -317,11 +345,26 @@
     <div class="container">
         <h1>
             程序功能块分析
-            <span>PLC功能块深度分析</span>
+            <span>PLC功能块深度分析报告</span>
         </h1>
 
+        <div class="stats">
+            <div class="stats-item">
+                <div class="number">124</div>
+                <div class="label">功能块总数</div>
+            </div>
+            <div class="stats-item">
+                <div class="number">12</div>
+                <div class="label">功能分类</div>
+            </div>
+            <div class="stats-item">
+                <div class="number">100%</div>
+                <div class="label">分析完成率</div>
+            </div>
+        </div>
+
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="搜索功能块名称..." onkeyup="filterCards()">
+            <input type="text" id="searchInput" placeholder="搜索功能块名称、描述或分类..." onkeyup="filterCards()">
         </div>
 
         <div class="category">
@@ -330,6 +373,11 @@
                 <a href="C_ADD4_分析报告.md" class="card" data-md="C_ADD4_分析报告.md">
                     <h3>C_ADD4</h3>
                     <p>加法器（4个加数，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_ADD4_D_分析报告.md" class="card" data-md="C_ADD4_D_分析报告.md">
+                    <h3>C_ADD4_D</h3>
+                    <p>加法器（4个加数，DINT类型）</p>
                     <span class="badge">数学运算</span>
                 </a>
                 <a href="C_ADSD_分析报告.md" class="card" data-md="C_ADSD_分析报告.md">
@@ -350,6 +398,31 @@
                 <a href="C_MULD_分析报告.md" class="card" data-md="C_MULD_分析报告.md">
                     <h3>C_MULD</h3>
                     <p>乘法器和除法器（实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_INV_分析报告.md" class="card" data-md="C_INV_分析报告.md">
+                    <h3>C_INV</h3>
+                    <p>反相器（实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_MAX_分析报告.md" class="card" data-md="C_MAX_分析报告.md">
+                    <h3>C_MAX</h3>
+                    <p>最大值（3输入，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_MIN_分析报告.md" class="card" data-md="C_MIN_分析报告.md">
+                    <h3>C_MIN</h3>
+                    <p>最小值（3输入，实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_AVGR_分析报告.md" class="card" data-md="C_AVGR_分析报告.md">
+                    <h3>C_AVGR</h3>
+                    <p>平均值生成器（实数类型）</p>
+                    <span class="badge">数学运算</span>
+                </a>
+                <a href="C_DIFF_分析报告.md" class="card" data-md="C_DIFF_分析报告.md">
+                    <h3>C_DIFF</h3>
+                    <p>差分计算器</p>
                     <span class="badge">数学运算</span>
                 </a>
             </div>
@@ -403,6 +476,11 @@
                     <p>8分支切换开关（INT类型）</p>
                     <span class="badge">控制逻辑</span>
                 </a>
+                <a href="C_MUXI_分析报告.md" class="card" data-md="C_MUXI_分析报告.md">
+                    <h3>C_MUXI</h3>
+                    <p>多路复用器（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
                 <a href="C_LIMR_分析报告.md" class="card" data-md="C_LIMR_分析报告.md">
                     <h3>C_LIMR</h3>
                     <p>限幅器（实数类型）</p>
@@ -420,12 +498,12 @@
                 </a>
                 <a href="C_DB_分析报告.md" class="card" data-md="C_DB_分析报告.md">
                     <h3>C_DB</h3>
-                    <p>死区（实数类型）</p>
+                    <p>死区功能块（实数类型）</p>
                     <span class="badge">控制逻辑</span>
                 </a>
                 <a href="C_DPD_分析报告.md" class="card" data-md="C_DPD_分析报告.md">
                     <h3>C_DPD</h3>
-                    <p>死区（实数类型）</p>
+                    <p>死区功能块（实数类型）</p>
                     <span class="badge">控制逻辑</span>
                 </a>
                 <a href="C_DLM_分析报告.md" class="card" data-md="C_DLM_分析报告.md">
@@ -433,9 +511,24 @@
                     <p>动态限幅器</p>
                     <span class="badge">控制逻辑</span>
                 </a>
-                <a href="C_INV_分析报告.md" class="card" data-md="C_INV_分析报告.md">
-                    <h3>C_INV</h3>
-                    <p>反相器（实数类型）</p>
+                <a href="C_LOCK_分析报告.md" class="card" data-md="C_LOCK_分析报告.md">
+                    <h3>C_LOCK</h3>
+                    <p>锁定功能块</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_INOK_分析报告.md" class="card" data-md="C_INOK_分析报告.md">
+                    <h3>C_INOK</h3>
+                    <p>输入OK检测</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_INI_RANGE_分析报告.md" class="card" data-md="C_INI_RANGE_分析报告.md">
+                    <h3>C_INI_RANGE</h3>
+                    <p>值在范围内检测（INT类型）</p>
+                    <span class="badge">控制逻辑</span>
+                </a>
+                <a href="C_INR_RANGE_分析报告.md" class="card" data-md="C_INR_RANGE_分析报告.md">
+                    <h3>C_INR_RANGE</h3>
+                    <p>值在范围内检测（REAL类型）</p>
                     <span class="badge">控制逻辑</span>
                 </a>
             </div>
@@ -456,12 +549,27 @@
                 </a>
                 <a href="C_OT01_分析报告.md" class="card" data-md="C_OT01_分析报告.md">
                     <h3>C_OT01</h3>
-                    <p>单次定时器1</p>
+                    <p>单次定时器1（电磁阀控制）</p>
                     <span class="badge">定时器</span>
                 </a>
                 <a href="C_OT02_分析报告.md" class="card" data-md="C_OT02_分析报告.md">
                     <h3>C_OT02</h3>
-                    <p>单次定时器2</p>
+                    <p>单次定时器2（双电磁阀控制）</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT11_分析报告.md" class="card" data-md="C_OT11_分析报告.md">
+                    <h3>C_OT11</h3>
+                    <p>单次定时器11</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT12_分析报告.md" class="card" data-md="C_OT12_分析报告.md">
+                    <h3>C_OT12</h3>
+                    <p>单次定时器12</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT31_分析报告.md" class="card" data-md="C_OT31_分析报告.md">
+                    <h3>C_OT31</h3>
+                    <p>单次定时器31</p>
                     <span class="badge">定时器</span>
                 </a>
                 <a href="C_OT51_分析报告.md" class="card" data-md="C_OT51_分析报告.md">
@@ -469,9 +577,24 @@
                     <p>单次定时器51</p>
                     <span class="badge">定时器</span>
                 </a>
+                <a href="C_OT61_分析报告.md" class="card" data-md="C_OT61_分析报告.md">
+                    <h3>C_OT61</h3>
+                    <p>单次定时器61</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT62_分析报告.md" class="card" data-md="C_OT62_分析报告.md">
+                    <h3>C_OT62</h3>
+                    <p>单次定时器62</p>
+                    <span class="badge">定时器</span>
+                </a>
                 <a href="C_OT71_分析报告.md" class="card" data-md="C_OT71_分析报告.md">
                     <h3>C_OT71</h3>
                     <p>单次定时器71</p>
+                    <span class="badge">定时器</span>
+                </a>
+                <a href="C_OT71U_分析报告.md" class="card" data-md="C_OT71U_分析报告.md">
+                    <h3>C_OT71U</h3>
+                    <p>单次定时器71U</p>
                     <span class="badge">定时器</span>
                 </a>
             </div>
@@ -488,6 +611,21 @@
                 <a href="C_HMD1_分析报告.md" class="card" data-md="C_HMD1_分析报告.md">
                     <h3>C_HMD1</h3>
                     <p>热/冷金属检测器（双检测器）</p>
+                    <span class="badge">检测器</span>
+                </a>
+                <a href="C_RTRIG_分析报告.md" class="card" data-md="C_RTRIG_分析报告.md">
+                    <h3>C_RTRIG</h3>
+                    <p>上升沿检测器</p>
+                    <span class="badge">检测器</span>
+                </a>
+                <a href="C_FTRIG_分析报告.md" class="card" data-md="C_FTRIG_分析报告.md">
+                    <h3>C_FTRIG</h3>
+                    <p>下降沿检测器</p>
+                    <span class="badge">检测器</span>
+                </a>
+                <a href="C_SPDT_分析报告.md" class="card" data-md="C_SPDT_分析报告.md">
+                    <h3>C_SPDT</h3>
+                    <p>单刀双掷开关检测器</p>
                     <span class="badge">检测器</span>
                 </a>
             </div>
@@ -516,9 +654,44 @@
                     <p>HMI接口4（四命令）</p>
                     <span class="badge">HMI接口</span>
                 </a>
+                <a href="C_HMI16_分析报告.md" class="card" data-md="C_HMI16_分析报告.md">
+                    <h3>C_HMI16</h3>
+                    <p>HMI接口16（16位命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI32_分析报告.md" class="card" data-md="C_HMI32_分析报告.md">
+                    <h3>C_HMI32</h3>
+                    <p>HMI接口32（32位命令）</p>
+                    <span class="badge">HMI接口</span>
+                </a>
                 <a href="C_HMI_R_分析报告.md" class="card" data-md="C_HMI_R_分析报告.md">
                     <h3>C_HMI_R</h3>
-                    <p>HMI接口实数变量（限幅、执行、实际值反馈）</p>
+                    <p>HMI接口实数变量</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI16_DFR_分析报告.md" class="card" data-md="C_HMI16_DFR_分析报告.md">
+                    <h3>C_HMI16_DFR</h3>
+                    <p>HMI接口16带差分</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI32_DFR_分析报告.md" class="card" data-md="C_HMI32_DFR_分析报告.md">
+                    <h3>C_HMI32_DFR</h3>
+                    <p>HMI接口32带差分</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI_ADD32_分析报告.md" class="card" data-md="C_HMI_ADD32_分析报告.md">
+                    <h3>C_HMI_ADD32</h3>
+                    <p>HMI接口32位加法</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI_S120_分析报告.md" class="card" data-md="C_HMI_S120_分析报告.md">
+                    <h3>C_HMI_S120</h3>
+                    <p>HMI接口S120驱动</p>
+                    <span class="badge">HMI接口</span>
+                </a>
+                <a href="C_HMI_YAS_分析报告.md" class="card" data-md="C_HMI_YAS_分析报告.md">
+                    <h3>C_HMI_YAS</h3>
+                    <p>HMI接口YASKAWA驱动</p>
                     <span class="badge">HMI接口</span>
                 </a>
             </div>
@@ -534,12 +707,27 @@
                 </a>
                 <a href="C_LDLG_分析报告.md" class="card" data-md="C_LDLG_分析报告.md">
                     <h3>C_LDLG</h3>
-                    <p>超前滞后</p>
+                    <p>超前滞后滤波器</p>
                     <span class="badge">信号处理</span>
                 </a>
                 <a href="C_IPLN40_分析报告.md" class="card" data-md="C_IPLN40_分析报告.md">
                     <h3>C_IPLN40</h3>
                     <p>插值器40（40点插值）</p>
+                    <span class="badge">信号处理</span>
+                </a>
+                <a href="C_SCAL1_分析报告.md" class="card" data-md="C_SCAL1_分析报告.md">
+                    <h3>C_SCAL1</h3>
+                    <p>标度转换1</p>
+                    <span class="badge">信号处理</span>
+                </a>
+                <a href="C_SCAL2_分析报告.md" class="card" data-md="C_SCAL2_分析报告.md">
+                    <h3>C_SCAL2</h3>
+                    <p>标度转换2</p>
+                    <span class="badge">信号处理</span>
+                </a>
+                <a href="C_DFR_分析报告.md" class="card" data-md="C_DFR_分析报告.md">
+                    <h3>C_DFR</h3>
+                    <p>差分功能块</p>
                     <span class="badge">信号处理</span>
                 </a>
             </div>
@@ -548,20 +736,259 @@
         <div class="category">
             <h2>位置控制类</h2>
             <div class="grid">
+                <a href="C_APC_分析报告.md" class="card" data-md="C_APC_分析报告.md">
+                    <h3>C_APC</h3>
+                    <p>自动位置控制</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_APCM_分析报告.md" class="card" data-md="C_APCM_分析报告.md">
+                    <h3>C_APCM</h3>
+                    <p>自动位置控制管理</p>
+                    <span class="badge">位置控制</span>
+                </a>
                 <a href="C_PA1G_分析报告.md" class="card" data-md="C_PA1G_分析报告.md">
                     <h3>C_PA1G</h3>
-                    <p>位置检测和归零（绝对值/半绝对值编码器）</p>
+                    <p>位置检测和归零（编码器）</p>
                     <span class="badge">位置控制</span>
                 </a>
                 <a href="C_PDSI_分析报告.md" class="card" data-md="C_PDSI_分析报告.md">
                     <h3>C_PDSI</h3>
-                    <p>位置检测和归零（磁致伸缩位置传感器）</p>
+                    <p>位置检测（磁致伸缩传感器）</p>
                     <span class="badge">位置控制</span>
                 </a>
                 <a href="C_CP01_分析报告.md" class="card" data-md="C_CP01_分析报告.md">
                     <h3>C_CP01</h3>
-                    <p>速度参考复合（2部分）</p>
+                    <p>复合位置控制01</p>
                     <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP02_分析报告.md" class="card" data-md="C_CP02_分析报告.md">
+                    <h3>C_CP02</h3>
+                    <p>复合位置控制02</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP03_分析报告.md" class="card" data-md="C_CP03_分析报告.md">
+                    <h3>C_CP03</h3>
+                    <p>复合位置控制03</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP11_分析报告.md" class="card" data-md="C_CP11_分析报告.md">
+                    <h3>C_CP11</h3>
+                    <p>复合位置控制11</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP12_分析报告.md" class="card" data-md="C_CP12_分析报告.md">
+                    <h3>C_CP12</h3>
+                    <p>复合位置控制12</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP13_分析报告.md" class="card" data-md="C_CP13_分析报告.md">
+                    <h3>C_CP13</h3>
+                    <p>复合位置控制13</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP14_分析报告.md" class="card" data-md="C_CP14_分析报告.md">
+                    <h3>C_CP14</h3>
+                    <p>复合位置控制14</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CP31_分析报告.md" class="card" data-md="C_CP31_分析报告.md">
+                    <h3>C_CP31</h3>
+                    <p>复合位置控制31</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_CPC_分析报告.md" class="card" data-md="C_CPC_分析报告.md">
+                    <h3>C_CPC</h3>
+                    <p>恒压自动位置控制</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_PPCA_分析报告.md" class="card" data-md="C_PPCA_分析报告.md">
+                    <h3>C_PPCA</h3>
+                    <p>比例阀自动位置控制</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_PLN11_分析报告.md" class="card" data-md="C_PLN11_分析报告.md">
+                    <h3>C_PLN11</h3>
+                    <p>平面控制11</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="C_PLN40_分析报告.md" class="card" data-md="C_PLN40_分析报告.md">
+                    <h3>C_PLN40</h3>
+                    <p>平面控制40</p>
+                    <span class="badge">位置控制</span>
+                </a>
+                <a href="POS_分析报告.md" class="card" data-md="POS_分析报告.md">
+                    <h3>POS</h3>
+                    <p>位置功能块</p>
+                    <span class="badge">位置控制</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>手动控制类</h2>
+            <div class="grid">
+                <a href="C_MN01_分析报告.md" class="card" data-md="C_MN01_分析报告.md">
+                    <h3>C_MN01</h3>
+                    <p>手动控制01</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN02_分析报告.md" class="card" data-md="C_MN02_分析报告.md">
+                    <h3>C_MN02</h3>
+                    <p>手动控制02</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN11_分析报告.md" class="card" data-md="C_MN11_分析报告.md">
+                    <h3>C_MN11</h3>
+                    <p>手动控制11</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN12_分析报告.md" class="card" data-md="C_MN12_分析报告.md">
+                    <h3>C_MN12</h3>
+                    <p>手动控制12</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN13_分析报告.md" class="card" data-md="C_MN13_分析报告.md">
+                    <h3>C_MN13</h3>
+                    <p>手动控制13</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN21_分析报告.md" class="card" data-md="C_MN21_分析报告.md">
+                    <h3>C_MN21</h3>
+                    <p>手动控制21</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN33_分析报告.md" class="card" data-md="C_MN33_分析报告.md">
+                    <h3>C_MN33</h3>
+                    <p>手动控制33</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN34_分析报告.md" class="card" data-md="C_MN34_分析报告.md">
+                    <h3>C_MN34</h3>
+                    <p>手动控制34</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN51_分析报告.md" class="card" data-md="C_MN51_分析报告.md">
+                    <h3>C_MN51</h3>
+                    <p>手动控制51</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN73_分析报告.md" class="card" data-md="C_MN73_分析报告.md">
+                    <h3>C_MN73</h3>
+                    <p>手动控制73</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN81_分析报告.md" class="card" data-md="C_MN81_分析报告.md">
+                    <h3>C_MN81</h3>
+                    <p>手动控制81</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN83_分析报告.md" class="card" data-md="C_MN83_分析报告.md">
+                    <h3>C_MN83</h3>
+                    <p>手动控制83</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN91_分析报告.md" class="card" data-md="C_MN91_分析报告.md">
+                    <h3>C_MN91</h3>
+                    <p>手动控制91</p>
+                    <span class="badge">手动控制</span>
+                </a>
+                <a href="C_MN92_分析报告.md" class="card" data-md="C_MN92_分析报告.md">
+                    <h3>C_MN92</h3>
+                    <p>手动控制92</p>
+                    <span class="badge">手动控制</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>调节器类</h2>
+            <div class="grid">
+                <a href="C_PI01_分析报告.md" class="card" data-md="C_PI01_分析报告.md">
+                    <h3>C_PI01</h3>
+                    <p>比例积分调节器</p>
+                    <span class="badge">调节器</span>
+                </a>
+                <a href="C_SI02_分析报告.md" class="card" data-md="C_SI02_分析报告.md">
+                    <h3>C_SI02</h3>
+                    <p>设定值积分器02</p>
+                    <span class="badge">调节器</span>
+                </a>
+                <a href="C_SI03_分析报告.md" class="card" data-md="C_SI03_分析报告.md">
+                    <h3>C_SI03</h3>
+                    <p>设定值积分器03</p>
+                    <span class="badge">调节器</span>
+                </a>
+                <a href="C_RLR_R_分析报告.md" class="card" data-md="C_RLR_R_分析报告.md">
+                    <h3>C_RLR_R</h3>
+                    <p>斜坡限幅器（实数类型）</p>
+                    <span class="badge">调节器</span>
+                </a>
+                <a href="C_CLKG_分析报告.md" class="card" data-md="C_CLKG_分析报告.md">
+                    <h3>C_CLKG</h3>
+                    <p>时钟脉冲发生器</p>
+                    <span class="badge">调节器</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>传感器接口类</h2>
+            <div class="grid">
+                <a href="C_RTD_分析报告.md" class="card" data-md="C_RTD_分析报告.md">
+                    <h3>C_RTD</h3>
+                    <p>热电阻温度传感器接口</p>
+                    <span class="badge">传感器接口</span>
+                </a>
+                <a href="C_RTD_PT100_分析报告.md" class="card" data-md="C_RTD_PT100_分析报告.md">
+                    <h3>C_RTD_PT100</h3>
+                    <p>PT100热电阻接口</p>
+                    <span class="badge">传感器接口</span>
+                </a>
+                <a href="C_VAO1_分析报告.md" class="card" data-md="C_VAO1_分析报告.md">
+                    <h3>C_VAO1</h3>
+                    <p>模拟量输出1</p>
+                    <span class="badge">传感器接口</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>阀门控制类</h2>
+            <div class="grid">
+                <a href="C_SFB_分析报告.md" class="card" data-md="C_SFB_分析报告.md">
+                    <h3>C_SFB</h3>
+                    <p>伺服阀功能块</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_SFB_DC_分析报告.md" class="card" data-md="C_SFB_DC_分析报告.md">
+                    <h3>C_SFB_DC</h3>
+                    <p>伺服阀功能块（双线圈）</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_SFB_MSD_分析报告.md" class="card" data-md="C_SFB_MSD_分析报告.md">
+                    <h3>C_SFB_MSD</h3>
+                    <p>伺服阀功能块（多级驱动）</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_CNMD_分析报告.md" class="card" data-md="C_CNMD_分析报告.md">
+                    <h3>C_CNMD</h3>
+                    <p>阀门控制（DINT类型）</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_CNMI_分析报告.md" class="card" data-md="C_CNMI_分析报告.md">
+                    <h3>C_CNMI</h3>
+                    <p>阀门控制（INT类型）</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_CNMR_分析报告.md" class="card" data-md="C_CNMR_分析报告.md">
+                    <h3>C_CNMR</h3>
+                    <p>阀门控制（实数类型）</p>
+                    <span class="badge">阀门控制</span>
+                </a>
+                <a href="C_ADSR_分析报告.md" class="card" data-md="C_ADSR_分析报告.md">
+                    <h3>C_ADSR</h3>
+                    <p>自动阀门斜坡复位</p>
+                    <span class="badge">阀门控制</span>
                 </a>
             </div>
         </div>
@@ -571,47 +998,17 @@
             <div class="grid">
                 <a href="C_9DAD_分析报告.md" class="card" data-md="C_9DAD_分析报告.md">
                     <h3>C_9DAD</h3>
-                    <p>距离累加器（通过添加偏差累加距离）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_AVGR_分析报告.md" class="card" data-md="C_AVGR_分析报告.md">
-                    <h3>C_AVGR</h3>
-                    <p>平均值生成器（实数类型）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_MAX_分析报告.md" class="card" data-md="C_MAX_分析报告.md">
-                    <h3>C_MAX</h3>
-                    <p>最大值（3输入，实数类型）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_MIN_分析报告.md" class="card" data-md="C_MIN_分析报告.md">
-                    <h3>C_MIN</h3>
-                    <p>最小值（3输入，实数类型）</p>
+                    <p>距离累加器</p>
                     <span class="badge">其他功能</span>
                 </a>
                 <a href="C_NCG_分析报告.md" class="card" data-md="C_NCG_分析报告.md">
                     <h3>C_NCG</h3>
-                    <p>自然常数生成器（实数类型）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_SCAL2_分析报告.md" class="card" data-md="C_SCAL2_分析报告.md">
-                    <h3>C_SCAL2</h3>
-                    <p>标度函数（断开错误检测和标度转换）</p>
+                    <p>自然常数生成器</p>
                     <span class="badge">其他功能</span>
                 </a>
                 <a href="C_SIM_分析报告.md" class="card" data-md="C_SIM_分析报告.md">
                     <h3>C_SIM</h3>
-                    <p>仿真（两个输入值切换）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_INI_RANGE_分析报告.md" class="card" data-md="C_INI_RANGE_分析报告.md">
-                    <h3>C_INI_RANGE</h3>
-                    <p>值在范围内（INT类型）</p>
-                    <span class="badge">其他功能</span>
-                </a>
-                <a href="C_INR_RANGE_分析报告.md" class="card" data-md="C_INR_RANGE_分析报告.md">
-                    <h3>C_INR_RANGE</h3>
-                    <p>值在范围内（REAL类型）</p>
+                    <p>仿真功能块</p>
                     <span class="badge">其他功能</span>
                 </a>
                 <a href="C_OP_SW1_分析报告.md" class="card" data-md="C_OP_SW1_分析报告.md">
@@ -619,47 +1016,63 @@
                     <p>操作员开关1</p>
                     <span class="badge">其他功能</span>
                 </a>
+                <a href="C_DP72_分析报告.md" class="card" data-md="C_DP72_分析报告.md">
+                    <h3>C_DP72</h3>
+                    <p>数据点72</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="DisEnd_分析报告.md" class="card" data-md="DisEnd_分析报告.md">
+                    <h3>DisEnd</h3>
+                    <p>PI调节器（C_PI01）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="PAD_LAB_分析报告.md" class="card" data-md="PAD_LAB_分析报告.md">
+                    <h3>PAD_LAB</h3>
+                    <p>自动位置控制管理（C_APCM）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="PrepEnd_分析报告.md" class="card" data-md="PrepEnd_分析报告.md">
+                    <h3>PrepEnd</h3>
+                    <p>恒压自动位置控制（C_CPC）</p>
+                    <span class="badge">其他功能</span>
+                </a>
+                <a href="PrepMd1_分析报告.md" class="card" data-md="PrepMd1_分析报告.md">
+                    <h3>PrepMd1</h3>
+                    <p>比例阀自动位置控制（C_PPCA）</p>
+                    <span class="badge">其他功能</span>
+                </a>
             </div>
         </div>
 
         <div class="category">
-            <h2>手动控制类</h2>
+            <h2>子程序类</h2>
             <div class="grid">
-                <a href="C_APC_分析报告.md" class="card" data-md="C_APC_分析报告.md">
-                    <h3>C_APC</h3>
-                    <p>APC（自动位置控制）</p>
-                    <span class="badge">手动控制</span>
+                <a href="SUB_ENCOD_分析报告.md" class="card" data-md="SUB_ENCOD_分析报告.md">
+                    <h3>SUB_ENCOD</h3>
+                    <p>编码器子程序</p>
+                    <span class="badge">子程序</span>
                 </a>
-                <a href="C_APCM_分析报告.md" class="card" data-md="C_APCM_分析报告.md">
-                    <h3>C_APCM</h3>
-                    <p>APCM（手动位置控制）</p>
-                    <span class="badge">手动控制</span>
+                <a href="SUB_ASR_分析报告.md" class="card" data-md="SUB_ASR_分析报告.md">
+                    <h3>SUB_ASR</h3>
+                    <p>自动斜坡复位子程序</p>
+                    <span class="badge">子程序</span>
                 </a>
-                <a href="C_MN01_分析报告.md" class="card" data-md="C_MN01_分析报告.md">
-                    <h3>C_MN01</h3>
-                    <p>手动01</p>
-                    <span class="badge">手动控制</span>
+                <a href="G_CTCERDY_分析报告.md" class="card" data-md="G_CTCERDY_分析报告.md">
+                    <h3>G_CTCERDY</h3>
+                    <p>CTC就绪信号</p>
+                    <span class="badge">子程序</span>
                 </a>
-                <a href="C_MN81_分析报告.md" class="card" data-md="C_MN81_分析报告.md">
-                    <h3>C_MN81</h3>
-                    <p>手动81</p>
-                    <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN83_分析报告.md" class="card" data-md="C_MN83_分析报告.md">
-                    <h3>C_MN83</h3>
-                    <p>手动83</p>
-                    <span class="badge">手动控制</span>
-                </a>
-                <a href="C_MN92_分析报告.md" class="card" data-md="C_MN92_分析报告.md">
-                    <h3>C_MN92</h3>
-                    <p>手动92</p>
-                    <span class="badge">手动控制</span>
+                <a href="D_CYLSIM_分析报告.md" class="card" data-md="D_CYLSIM_分析报告.md">
+                    <h3>D_CYLSIM</h3>
+                    <p>气缸仿真</p>
+                    <span class="badge">子程序</span>
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p>共 56 个功能块分析报告 | 支持搜索和分类浏览</p>
+            <p>共 124 个功能块分析报告 | 12 个功能分类 | 支持搜索和分类浏览</p>
+            <p style="margin-top: 10px; opacity: 0.8;">最后更新: 2026-04-25</p>
         </div>
     </div>
 
@@ -674,6 +1087,7 @@
         function filterCards() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
+            const categories = document.querySelectorAll('.category');
             
             cards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
@@ -687,6 +1101,15 @@
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
+                }
+            });
+
+            categories.forEach(category => {
+                const visibleCards = category.querySelectorAll('.card[style="display: block"], .card:not([style])');
+                if (visibleCards.length === 0 && searchInput !== '') {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = 'block';
                 }
             });
         }
